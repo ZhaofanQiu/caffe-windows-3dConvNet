@@ -45,8 +45,8 @@ Dtype Deconvolution3DLayer<Dtype>::Forward_gpu(const vector<Blob<Dtype>*>& botto
 
     if (bias_term_) {
 	 caffe_gpu_gemm<Dtype>(CblasNoTrans, CblasNoTrans, num_output_,
-		length_out_ * height_out_ * width_out_, 1, (Dtype)1., this->blobs_[1]->cpu_data(),
-		reinterpret_cast<const Dtype*>(bias_multiplier_->cpu_data()),
+		length_out_ * height_out_ * width_out_, 1, (Dtype)1., this->blobs_[1]->gpu_data(),
+		reinterpret_cast<const Dtype*>(bias_multiplier_->gpu_data()),
 		(Dtype)1., top_data + (*top)[0]->offset(n));	
     }
   }
@@ -67,12 +67,12 @@ void Deconvolution3DLayer<Dtype>::Backward_gpu(const vector<Blob<Dtype>*>& top,
   Dtype* bias_diff = NULL;
 
   if (bias_term_) {
-	  bias_diff = this->blobs_[1]->mutable_cpu_diff();
+	  bias_diff = this->blobs_[1]->mutable_gpu_diff();
 	  CUDA_CHECK(cudaMemset(bias_diff, 0, sizeof(Dtype) * this->blobs_[1]->count()));
 	  for (int n = 0; n < num_; ++n) {
 		  caffe_gpu_gemv<Dtype>(CblasNoTrans, num_output_, length_out_ * height_out_ * width_out_,
 			  1., top_diff + top[0]->offset(n),
-			  reinterpret_cast<const Dtype*>(bias_multiplier_->cpu_data()), 1.,
+			  reinterpret_cast<const Dtype*>(bias_multiplier_->gpu_data()), 1.,
 			  bias_diff);
 	  }
   }
