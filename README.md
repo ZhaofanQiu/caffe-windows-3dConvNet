@@ -1,3 +1,8 @@
+# This project of Caffe
+
+This project merge Caffe-C3D from facebook [C3D](https://github.com/facebook/C3D) and Caffe-windows from [initialneil](https://github.com/initialneil/caffe/tree/windows).
+The readme below is from initialneil.
+
 # Caffe
 
 Caffe is a deep learning framework developed with cleanliness, readability, and speed in mind.<br />
