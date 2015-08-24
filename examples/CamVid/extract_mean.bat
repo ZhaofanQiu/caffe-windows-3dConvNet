@@ -1,0 +1,1 @@
+D:\users\v-donali\code\caffe-windows-3dConvNet\bin\compute_image_mean_from_list.exe mean_list.txt 240 320 sport1m_train16_128_mean.binaryproto

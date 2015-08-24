@@ -1,0 +1,21 @@
+train_net: "c3d_fcn_finetuning_train.prototxt"
+# "we don't use testing on the fly"
+# test_net: "c3d_fcn_finetuning_test.prototxt"
+# test_iter: 30
+# test_interval: 0
+base_lr: 0.001
+momentum: 0.9
+weight_decay: 0.0005
+lr_policy: "step"
+gamma: 0.1
+stepsize: 10000
+# Display every 200 iterations
+display: 250
+# The maximum number of iterations
+max_iter: 20000
+# snapshot intermediate results
+snapshot: 1000
+snapshot_prefix: "c3d_fcn_finetune_whole"
+# solver mode: CPU or GPU
+solver_mode: GPU
+device_id: 2

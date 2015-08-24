@@ -89,6 +89,12 @@ Dtype Pooling3DLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*>& bottom,
 	              int hstart = ph * stride_;
 	              int wstart = pw * stride_;
 	              int lstart = pl * temporal_stride_;
+
+				  hstart = max(hstart, 0);
+	              wstart = max(wstart, 0);
+				  hstart = min(hstart, height_ - 1);
+				  wstart = min(wstart, width_ - 1);
+
 	              int hend = min(hstart + kernel_size_, height_);
 	              int wend = min(wstart + kernel_size_, width_);
 	              int lend = min(lstart + kernel_depth_, length_);
@@ -123,14 +129,17 @@ Dtype Pooling3DLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*>& bottom,
 	              int hstart = ph * stride_ - pad_;
 	              int wstart = pw * stride_ - pad_;
 	              int lstart = pl * temporal_stride_;
+			      hstart = max(hstart, 0);
+	              wstart = max(wstart, 0);
+				  hstart = min(hstart, height_ - 1);
+				  wstart = min(wstart, width_ - 1);
+
+
 	              int hend = min(hstart + kernel_size_, height_ + pad_);
 	              int wend = min(wstart + kernel_size_, width_ + pad_);
 	              int lend = min(lstart + kernel_depth_, length_);
 	              int pool_size = (hend - hstart) * (wend - wstart) * (lend - lstart);
-	              hstart = max(hstart, 0);
-	              wstart = max(wstart, 0);
-
-	              hend = min(hend, height_);
+	              	              hend = min(hend, height_);
 	              wend = min(wend, width_);
 	              lend = min(lend, length_);
 	              for (int l = lstart; l < lend; ++l) {

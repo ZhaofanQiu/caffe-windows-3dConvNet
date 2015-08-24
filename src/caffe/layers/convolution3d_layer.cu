@@ -65,7 +65,6 @@ void Convolution3DLayer<Dtype>::Backward_gpu(const vector<Blob<Dtype>*>& top,
   const Dtype* bottom_data = (*bottom)[0]->gpu_data();
   Dtype* bottom_diff = (*bottom)[0]->mutable_gpu_diff();
   Dtype* col_data = col_buffer_.mutable_gpu_data();
-  Dtype* col_diff = col_buffer_.mutable_gpu_diff();
   // bias gradient if necessary
   Dtype* bias_diff = NULL;
 
@@ -103,16 +102,16 @@ void Convolution3DLayer<Dtype>::Backward_gpu(const vector<Blob<Dtype>*>& top,
       caffe_gpu_gemm<Dtype>(CblasTrans, CblasNoTrans, K_, N_, M_,
         (Dtype)1., weight,
         top_diff + top[0]->offset(n),
-        (Dtype)0., col_diff);
+        (Dtype)0., col_data);
     
       for (int g=1; g<filter_group_; ++g) {
         caffe_gpu_gemm<Dtype>(CblasTrans, CblasNoTrans, K_, N_, M_,
           (Dtype)1., weight + g * weight_offset,
           top_diff + top[0]->offset(n) + g * top_offset,
-          (Dtype)1., col_diff);
+          (Dtype)1., col_data);
 	  }
       // col2vol back to the data
-      col2vol_gpu(col_diff, channels_, length_, height_, width_, kernel_size_, kernel_depth_, pad_,
+      col2vol_gpu(col_data, channels_, length_, height_, width_, kernel_size_, kernel_depth_, pad_,
           temporal_pad_, stride_, temporal_stride_, bottom_diff + (*bottom)[0]->offset(n));
     }
   }

@@ -72,13 +72,16 @@ __global__ void AvePoolForward(const int nthreads, const Dtype* bottom_data,
     int hstart = ph * stride - pad;
     int wstart = pw * stride - pad;
     int lstart = pl * temporal_stride;
+	hstart = max(hstart, 0);
+    wstart = max(wstart, 0);
+	hstart = min(hstart, height - 1);
+	wstart = min(wstart, width - 1);
+
     int hend = min(hstart + kernel_size, height + pad);
     int wend = min(wstart + kernel_size, width + pad);
     int lend = min(lstart + kernel_depth, length);
     int pool_size = (hend - hstart) * (wend - wstart) * (lend - lstart);
-    hstart = max(hstart, 0);
-    wstart = max(wstart, 0);
-    hend = min(hend, height);
+        hend = min(hend, height);
     wend = min(wend, width);
     lend = min(lend, length);
     Dtype aveval = 0;
@@ -143,8 +146,13 @@ __global__ void MaxPoolBackward(const int nthreads, const Dtype* bottom_data,
     int n = index / width / height / length / channels;
     
     int phstart = (h < kernel_size) ? 0 : (h - kernel_size) / stride + 1;
-    int phend = min(h / stride + 1, pooled_height);
     int pwstart = (w < kernel_size) ? 0 : (w - kernel_size) / stride + 1;
+	phstart = max(phstart, 0);
+    pwstart = max(pwstart, 0);
+	phstart = min(phstart, height - 1);
+	pwstart = min(pwstart, width - 1);
+
+    int phend = min(h / stride + 1, pooled_height);
     int pwend = min(w / stride + 1, pooled_width);
     int plstart = (l < kernel_depth) ? 0 : (l - kernel_depth) / temporal_stride + 1;
     int plend = min(l / temporal_stride + 1, pooled_length);
