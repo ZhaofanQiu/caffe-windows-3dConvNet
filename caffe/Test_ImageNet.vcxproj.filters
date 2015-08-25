@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="train_net.cpp">
+    <ClCompile Include="finetune_net.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
