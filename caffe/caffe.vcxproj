@@ -277,6 +277,8 @@
     <ClInclude Include="..\include\caffe\neuron_layers.hpp" />
     <ClInclude Include="..\include\caffe\solver.hpp" />
     <ClInclude Include="..\include\caffe\syncedmem.hpp" />
+    <ClInclude Include="..\include\caffe\test\test_caffe_main.hpp" />
+    <ClInclude Include="..\include\caffe\test\test_gradient_check_util.hpp" />
     <ClInclude Include="..\include\caffe\util\benchmark.hpp" />
     <ClInclude Include="..\include\caffe\util\im2col.hpp" />
     <ClInclude Include="..\include\caffe\util\image_io.hpp" />

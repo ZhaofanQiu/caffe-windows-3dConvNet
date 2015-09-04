@@ -51,8 +51,8 @@ namespace caffe {
 	 const int dest_stride1, const int dest_stride2, const int dest_stride3,
 	 const Dtype* src, Dtype* dest) {
 	 CUDA_KERNEL_LOOP(index, n) {
-		 int src_start = index % height * src_stride3 + index / height % length * src_stride2 + index / height / length * src_stride1;
-		 int dest_start = index % height * dest_stride3 + index / height % length * dest_stride2 + index / height / length * dest_stride1;
+		 int src_start = index % height * src_stride3 + index / height % length * src_stride2 + index / (height * length) * src_stride1;
+		 int dest_start = index % height * dest_stride3 + index / height % length * dest_stride2 + index / (height * length) * dest_stride1;
 
 		 for (int i = 0; i < width; ++i) {
 			 dest[dest_start + i] = src[src_start + i];
@@ -89,6 +89,7 @@ void Crop3DLayer<Dtype>::Backward_gpu(const vector<Blob<Dtype>*>& top,
  
    if (propagate_down) { 
 	   caffe_gpu_set((*bottom)[0]->count(), static_cast<Dtype>(0), bottom_diff);
+	   caffe_gpu_set((*bottom)[1]->count(), static_cast<Dtype>(0), (*bottom)[1]->mutable_gpu_diff());
      // NOLINT_NEXT_LINE(whitespace/operators) 
 	   copy_kernel_3d << <CAFFE_GET_BLOCKS(lines), CAFFE_CUDA_NUM_THREADS >> >(
          lines, top[0]->length(), top[0]->height(), top[0]->width(), 

@@ -84,7 +84,6 @@ namespace caffe {
 		}
 	}
 
-
 	template <typename Dtype>
 	void EltwiseLayer<Dtype>::Backward_gpu(const vector<Blob<Dtype>*>& top,
 		const bool propagate_down, vector<Blob<Dtype>*>* bottom) {
@@ -103,7 +102,7 @@ namespace caffe {
 						for (int j = 0; j < (*bottom).size(); ++j) {
 							if (i == j) { continue; }
 							if (!initialized) {
-								caffe_copy(count, (*bottom)[j]->gpu_data(), bottom_diff);
+								caffe_gpu_copy(count, (*bottom)[j]->gpu_data(), bottom_diff);
 								initialized = true;
 							}
 							else {
@@ -119,7 +118,7 @@ namespace caffe {
 					break;
 				case EltwiseParameter_EltwiseOp_SUM:
 					if (coeffs_[i] == Dtype(1.)) {
-						caffe_copy(count, top_diff, bottom_diff);
+						caffe_gpu_copy(count, top_diff, bottom_diff);
 					}
 					else {
 						caffe_gpu_scale(count, coeffs_[i], top_diff, bottom_diff);

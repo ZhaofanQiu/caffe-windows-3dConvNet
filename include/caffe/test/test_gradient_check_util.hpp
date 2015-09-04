@@ -82,7 +82,8 @@ void GradientChecker<Dtype>::CheckGradientSingle(Layer<Dtype>* layer,
   }
   // First, figure out what blobs we need to check against.
   vector<Blob<Dtype>*> blobs_to_check;
-  vector<bool> propagate_down(bottom->size(), check_bottom < 0);
+  bool propagate_down = true;
+
   for (int i = 0; i < layer->blobs().size(); ++i) {
     blobs_to_check.push_back(layer->blobs()[i].get());
   }
@@ -93,8 +94,8 @@ void GradientChecker<Dtype>::CheckGradientSingle(Layer<Dtype>* layer,
   } else {
     CHECK_LT(check_bottom, bottom->size());
     blobs_to_check.push_back((*bottom)[check_bottom]);
-    propagate_down[check_bottom] = true;
   }
+
   // Compute the gradient analytically using Backward
   Caffe::set_random_seed(seed_);
   // Ignore the loss from the layer (it's just the weighted sum of the losses
@@ -161,8 +162,8 @@ void GradientChecker<Dtype>::CheckGradientSingle(Layer<Dtype>* layer,
           || fabs(feature) > kink_ + kink_range_) {
         // We check relative accuracy, but for too small values, we threshold
         // the scale factor by 1.
-        Dtype scale = std::max(
-            std::max(fabs(computed_gradient), fabs(estimated_gradient)), 1.);
+		  Dtype scale = std::max<Dtype>(
+            std::max<Dtype>(fabs(computed_gradient), fabs(estimated_gradient)), 1.);
         EXPECT_NEAR(computed_gradient, estimated_gradient, threshold_ * scale)
           << "debug: (top_id, top_data_id, blob_id, feat_id)="
           << top_id << "," << top_data_id << "," << blob_id << "," << feat_id

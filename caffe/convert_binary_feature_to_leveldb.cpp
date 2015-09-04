@@ -29,8 +29,8 @@ using std::string;
 
 #define CHANNELS 1 
 #define LENGTH 1 
-#define HEIGHT 720
-#define WIDTH 960
+#define HEIGHT 240 
+#define WIDTH 320
 
 float buf[CHANNELS * LENGTH * HEIGHT * WIDTH];
 

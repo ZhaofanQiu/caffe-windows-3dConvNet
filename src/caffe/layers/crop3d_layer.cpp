@@ -80,6 +80,7 @@ void Crop3DLayer<Dtype>::Backward_cpu(const vector<Blob<Dtype>*>& top,
    Dtype* bottom_diff = (*bottom)[0]->mutable_cpu_diff(); 
    if (propagate_down) { 
 	   caffe_set((*bottom)[0]->count(), static_cast<Dtype>(0), bottom_diff);
+	   caffe_set((*bottom)[1]->count(), static_cast<Dtype>(0), (*bottom)[1]->mutable_cpu_diff());
      for (int n = 0; n < top[0]->num(); ++n) { 
        for (int c = 0; c < top[0]->channels(); ++c) { 
 		   for (int l = 0; l < top[0]->length(); ++l)

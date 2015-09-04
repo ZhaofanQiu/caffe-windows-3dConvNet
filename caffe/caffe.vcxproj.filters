@@ -28,6 +28,9 @@
     <Filter Include="Header Files\util">
       <UniqueIdentifier>{235b2aa1-03d5-47a2-a48b-8c9cb1533dd8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\test">
+      <UniqueIdentifier>{dc573890-8a22-40e5-96cb-9abc7c61f504}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\caffe\common.cpp">
@@ -387,6 +390,12 @@
     </ClInclude>
     <ClInclude Include="..\include\caffe\video_3d_layers.hpp">
       <Filter>Header Files\caffe</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\caffe\test\test_caffe_main.hpp">
+      <Filter>Header Files\test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\caffe\test\test_gradient_check_util.hpp">
+      <Filter>Header Files\test</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

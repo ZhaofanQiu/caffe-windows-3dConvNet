@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="finetune_net.cpp" />
+    <ClCompile Include="train_net.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4322F550-11B9-469B-BFE3-39472B19C1EA}</ProjectGuid>
